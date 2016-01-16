@@ -1,5 +1,8 @@
 #include "cl_util.h"
 
+#include <cassert>
+#include <iostream>
+
 namespace cl
 {
 template <>
@@ -37,5 +40,32 @@ std::vector<cl_device_id> allDevices()
                        platformDevices.end());
     }
     return devices;
+}
+
+cl_device_id chooseDevice(const std::vector<cl_device_id>& devices,
+                          const cl_device_info& param)
+{
+    assert(devices.size() > 0);
+    cl_uint record = 0;
+    cl_device_id best = devices[0];
+    for (const auto& device : devices)
+    {
+        const auto info = deviceInfo<cl_uint>(device, param);
+        if (info > record)
+        {
+            record = info;
+            best = device;
+        }
+    }
+    return best;
+}
+void printDeviceInfo(const cl_device_id& device)
+{
+    std::cout << cl::deviceInfo<std::string>(device, CL_DEVICE_NAME)
+              << " using "
+              << cl::deviceInfo<std::string>(device, CL_DEVICE_VERSION)
+              << " with "
+              << cl::deviceInfo<cl_uint>(device, CL_DEVICE_MAX_COMPUTE_UNITS)
+              << " computation units." << std::endl;
 }
 }
