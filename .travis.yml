@@ -11,9 +11,11 @@ addons:
     packages:
       - g++-5
       - gcc-5
-      - qtbase5-dev
       - cppcheck
 install:
+  - mkdir build && cd build
   - if [ "$CXX" = "g++" ]; then export CXX="g++-5" CC="gcc-5"; fi
 before_script:
-  - cppcheck source
+  - cppcheck ../source
+script:
+  - cmake .. && make && make test
