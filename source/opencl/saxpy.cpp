@@ -5,12 +5,17 @@
 #include "cl_util.h"
 
 const char *source =
-    "__kernel void saxpy(float a, __global float *x, __global float "
-    "*y)"
+    "__kernel void saxpy(float a, __global float *x, __global float *y)"
     "{"
     "   uint id = get_global_id(0);"
     "   y[id] = a * x[id] + y[id];"
     "}";
+
+void errorCallback(const char *errinfo, const void *private_info, size_t cb,
+                   void *user_data)
+{
+    std::cout << "ContextError: " << errinfo << std::endl;
+}
 
 int main()
 {
@@ -26,7 +31,7 @@ int main()
     cl_int error = 0;
 
     cl_context context =
-        clCreateContext(nullptr, 1, &device, nullptr, nullptr, &error);
+        clCreateContext(nullptr, 1, &device, errorCallback, nullptr, &error);
     cl_command_queue queue = clCreateCommandQueue(context, device, 0, &error);
     cl_program program =
         clCreateProgramWithSource(context, 1, &source, nullptr, &error);
