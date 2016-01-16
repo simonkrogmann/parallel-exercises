@@ -6,6 +6,9 @@ set(target opencl-exercises)
 
 set(sources
     main.cpp
+    cl_util.cpp
+    cl_util.hpp
+    cl_util.h
 )
 
 add_executable(${target} ${sources})
