@@ -13,15 +13,13 @@ set(targets
     saxpy
 )
 
-
 foreach(filename IN LISTS targets)
     set(target "opencl-${filename}")
-    message(STATUS ${target})
 
     set(target_sources ${sources} "${filename}.cpp")
 
     add_executable(${target} ${target_sources})
-    target_link_libraries(${target} ${OpenCL_LIBRARIES})
+    target_link_libraries(${target} ${OpenCL_LIBRARIES} utilgpu::cpp)
 
     target_compile_options(${target} PRIVATE ${DEFAULT_COMPILE_FLAGS})
 

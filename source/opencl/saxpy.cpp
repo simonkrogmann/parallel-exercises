@@ -4,6 +4,7 @@
 #include <cassert>
 
 #include <CL/cl.h>
+#include <utilgpu/cpp/file.h>
 
 #include "cl_util.h"
 
@@ -11,16 +12,6 @@ void errorCallback(const char *errinfo, const void *private_info, size_t cb,
                    void *user_data)
 {
     std::cout << "ContextError: " << errinfo << std::endl;
-}
-
-std::string loadFile(const std::string &filename)
-{
-    std::ifstream sourceFile(filename);
-    assert(!sourceFile.bad());
-
-    std::stringstream sourceBuffer;
-    sourceBuffer << sourceFile.rdbuf();
-    return sourceBuffer.str();
 }
 
 int main()
@@ -39,7 +30,8 @@ int main()
         clCreateContext(nullptr, 1, &device, errorCallback, nullptr, &error);
     cl_command_queue queue = clCreateCommandQueue(context, device, 0, &error);
 
-    const char *source = loadFile("../source/opencl/saxpy.cl").c_str();
+    const auto sourceString = util::loadFile("../source/opencl/saxpy.cl");
+    auto source = sourceString.c_str();
     cl_program program =
         clCreateProgramWithSource(context, 1, &source, nullptr, &error);
     clBuildProgram(program, 1, &device, nullptr, nullptr, nullptr);
