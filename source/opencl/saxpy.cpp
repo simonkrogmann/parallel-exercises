@@ -5,8 +5,7 @@
 
 #include <CL/cl.h>
 #include <utilgpu/cpp/file.h>
-
-#include "cl_util.h"
+#include <utilgpu/cl/device.h>
 
 void errorCallback(const char *errinfo, const void *private_info, size_t cb,
                    void *user_data)

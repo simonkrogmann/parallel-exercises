@@ -2,11 +2,7 @@ find_package(OpenCL REQUIRED)
 
 include_directories(${OpenCL_INCLUDE_DIRS})
 
-set(sources
-    cl_util.cpp
-    cl_util.hpp
-    cl_util.h
-)
+set(sources "")
 
 set(targets
     info
@@ -19,7 +15,7 @@ foreach(filename IN LISTS targets)
     set(target_sources ${sources} "${filename}.cpp")
 
     add_executable(${target} ${target_sources})
-    target_link_libraries(${target} ${OpenCL_LIBRARIES} utilgpu::cpp)
+    target_link_libraries(${target} ${OpenCL_LIBRARIES} utilgpu::cpp utilgpu::cl)
 
     target_compile_options(${target} PRIVATE ${DEFAULT_COMPILE_FLAGS})
 

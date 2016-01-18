@@ -16,7 +16,7 @@ install:
   - mkdir build && cd build
   - if [ "$CXX" = "g++" ]; then export CXX="g++-5" CC="gcc-5"; fi
   - git clone https://github.com/simonkrogmann/utilgpu.git
-  - cd utilgpu && mkdir build && cd build && cmake .. -DCLANG_FORMAT=OFF
+  - cd utilgpu && mkdir build && cd build && cmake .. -DCLANG_FORMAT=OFF -DBUILD_CL=ON
   - make && sudo make install
   - cd ../..
 before_script:

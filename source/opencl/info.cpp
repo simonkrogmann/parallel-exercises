@@ -3,8 +3,7 @@
 #include <string>
 
 #include <CL/cl.h>
-
-#include "cl_util.h"
+#include <utilgpu/cl/device.h>
 
 int main()
 {
